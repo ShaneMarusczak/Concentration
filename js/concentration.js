@@ -43,8 +43,20 @@
     const cardsToCheck = document.querySelectorAll(".flip-card-flip");
 
     if (cardsToCheck[0].id === cardsToCheck[1].id) {
-      cardsToCheck[0].remove();
-      cardsToCheck[1].remove();
+      window.sleep(50).then(() => {
+        Array.from(cardsToCheck[0].childNodes)
+          .find((elem) => elem.classList.contains("flip-card-back"))
+          .firstChild.classList.add("match-rotate");
+        Array.from(cardsToCheck[1].childNodes)
+          .find((elem) => elem.classList.contains("flip-card-back"))
+          .firstChild.classList.add("match-rotate");
+      });
+
+      window.sleep(400).then(() => {
+        cardsToCheck[0].remove();
+        cardsToCheck[1].remove();
+      });
+
       if (++matchedCards === 20) {
         window.modal("You Win!", 1500);
         gameOver = true;
@@ -57,11 +69,30 @@
     flippedCards = 0;
   };
 
+  const colorSelectHandler = () => {
+    const select = document.getElementById("color-select");
+    const colorTo = select.options[select.selectedIndex].value;
+    const cards = Array.from(document.querySelectorAll(".flip-card-front"));
+    for (let card of cards) {
+      card.classList.remove("grey-pattern");
+      card.classList.remove("blue-pattern");
+      card.classList.remove("purple-pattern");
+      card.classList.remove("orange-pattern");
+      card.classList.add(colorTo + "-pattern");
+    }
+  };
+
   (() => {
     document.getElementById("startBtn").addEventListener("click", () => {
-      window.modal("Start!", 1500);
-      gameStarted = true;
+      if (!gameStarted) {
+        window.modal("Start!", 1500);
+        gameStarted = true;
+      }
     });
+
+    document
+      .getElementById("color-select")
+      .addEventListener("change", colorSelectHandler);
 
     for (let i = 0; i < 5; i++) {
       const row = document.createElement("div");
@@ -76,6 +107,7 @@
         flipCard.classList.add("flip-card");
         flipCardInner.classList.add("flip-card-inner");
         flipCardFront.classList.add("flip-card-front");
+        flipCardFront.classList.add("box-shadow");
         flipCardBack.classList.add("flip-card-back");
         flipCard.appendChild(flipCardInner);
         flipCardInner.appendChild(flipCardFront);
@@ -104,5 +136,6 @@
         });
       }
     }
+    colorSelectHandler();
   })();
 })();

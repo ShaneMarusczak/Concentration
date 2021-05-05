@@ -38,6 +38,14 @@ main {
   margin: 5px;
 }
 
+label {
+  font-size: 1.3em;
+}
+select {
+  margin-top: 20px;
+  font-size: 1em;
+}
+
 .btn:hover {
   cursor: pointer;
   background-color: grey;
@@ -86,13 +94,10 @@ html {
 }
 
 .flip-card-front {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: repeating-conic-gradient(#808080 0% 25%, white 0% 50%) 50% / 105px
-    127px;
   color: black;
 }
 
@@ -107,4 +112,33 @@ html {
   border-radius: 7px;
   width: 125px;
   height: 150px;
+}
+
+.match-rotate {
+  transition-duration: 200ms;
+  transform: rotate(360deg);
+}
+
+.box-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.grey-pattern {
+  background: repeating-conic-gradient(#808080 0% 25%, white 0% 50%) 50% / 105px
+    127px;
+}
+
+.purple-pattern {
+  background: repeating-conic-gradient(#800080 0% 25%, white 0% 50%) 50% / 105px
+    127px;
+}
+
+.blue-pattern {
+  background: repeating-conic-gradient(#0000ff 0% 25%, white 0% 50%) 50% / 105px
+    127px;
+}
+
+.orange-pattern {
+  background: repeating-conic-gradient(#ffa500 0% 25%, white 0% 50%) 50% / 105px
+    127px;
 }

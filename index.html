@@ -32,10 +32,17 @@
         <div id="startBtn" class="btn">Start</div>
         <div onclick="location.reload()" class="btn">Start Over</div>
       </div>
-      <p>Last Updated: May 5, 2021</p>
+      <label for="color-select">Card Color:</label>
+      <select id="color-select" class="drop-down" name="color-select">
+        <option value="grey" selected="selected">Grey</option>
+        <option value="purple">Purple</option>
+        <option value="blue">Blue</option>
+        <option value="orange">Orange</option>
+      </select>
     </header>
     <main>
       <div id="cards"></div>
+      <p title="7:26 PM">Last Updated: May 5, 2021</p>
     </main>
   </body>
 </html>
