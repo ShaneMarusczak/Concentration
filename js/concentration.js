@@ -50,7 +50,6 @@
         const flipCardFront = document.createElement("div");
         const flipCardBack = document.createElement("div");
         const image = document.createElement("img");
-        const imgOverlay = document.createElement("div");
         flipCard.classList.add("flip-card");
         flipCardInner.classList.add("flip-card-inner");
         flipCardFront.classList.add("flip-card-front");
@@ -63,7 +62,6 @@
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
         flipCardBack.appendChild(image);
-        imgOverlay.classList.add("img-ovr");
         flipCard.addEventListener("click", () => {
           if (flipCardInner.classList.contains("flip-card-flip")) {
             flipCardInner.classList.remove("flip-card-flip");
