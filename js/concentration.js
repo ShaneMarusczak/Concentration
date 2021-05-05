@@ -1,5 +1,10 @@
 "use strict";
 (() => {
+  let flippedCards = 0;
+  let matchedCards = 0;
+  let canFlip = true;
+  let gameStarted = false;
+  let gameOver = false;
   const utl = {
     cardCount: 40,
     matches: 20,
@@ -15,18 +20,13 @@
 
   const imageStore = createList();
 
-  const randomIntFromInterval = (min, max) =>
-    Math.floor(Math.random() * (max - min + 1) + min);
-
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  function shuffle(a) {
+  const shuffle = (a) => {
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
-  }
+  };
 
   const assignment = () => {
     const arr1 = [];
@@ -39,7 +39,30 @@
 
   const matchList = assignment();
 
+  const checkForMatch = () => {
+    const cardsToCheck = document.querySelectorAll(".flip-card-flip");
+
+    if (cardsToCheck[0].id === cardsToCheck[1].id) {
+      cardsToCheck[0].remove();
+      cardsToCheck[1].remove();
+      if (++matchedCards === 20) {
+        window.modal("You Win!", 1500);
+        gameOver = true;
+      }
+    } else {
+      cardsToCheck[0].classList.remove("flip-card-flip");
+      cardsToCheck[1].classList.remove("flip-card-flip");
+    }
+    canFlip = true;
+    flippedCards = 0;
+  };
+
   (() => {
+    document.getElementById("startBtn").addEventListener("click", () => {
+      window.modal("Start!", 1500);
+      gameStarted = true;
+    });
+
     for (let i = 0; i < 5; i++) {
       const row = document.createElement("div");
       document.getElementById("cards").appendChild(row);
@@ -58,15 +81,25 @@
         flipCardInner.appendChild(flipCardFront);
         flipCardInner.appendChild(flipCardBack);
         row.appendChild(flipCard);
-        flipCard.id = matchList[i * 8 + j];
+        flipCardInner.id = matchList[i * 8 + j];
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
         flipCardBack.appendChild(image);
         flipCard.addEventListener("click", () => {
-          if (flipCardInner.classList.contains("flip-card-flip")) {
-            flipCardInner.classList.remove("flip-card-flip");
-          } else {
-            flipCardInner.classList.add("flip-card-flip");
+          if (canFlip && gameStarted && !gameOver) {
+            if (flipCardInner.classList.contains("flip-card-flip")) {
+              flipCardInner.classList.remove("flip-card-flip");
+              flippedCards--;
+            } else {
+              if (flippedCards === 0 || flippedCards === 1) {
+                flipCardInner.classList.add("flip-card-flip");
+                flippedCards++;
+                if (flippedCards === 2) {
+                  canFlip = false;
+                  window.sleep(1250).then(checkForMatch);
+                }
+              }
+            }
           }
         });
       }

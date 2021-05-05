@@ -18,10 +18,33 @@ header {
   flex-direction: row;
 }
 
+header {
+  position: absolute;
+  top: 100px;
+  left: 15px;
+}
+
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.btn {
+  font-size: 1.7em;
+  padding: 5px;
+  border: solid black;
+  border-radius: 7px;
+  margin: 5px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: grey;
+}
+
+#menu {
+  display: flex;
 }
 
 html {
