@@ -20,7 +20,7 @@ header {
 
 header {
   position: absolute;
-  top: 100px;
+  top: 125px;
   left: 15px;
 }
 
@@ -141,4 +141,36 @@ html {
 .orange-pattern {
   background: repeating-conic-gradient(#ffa500 0% 25%, white 0% 50%) 50% / 105px
     127px;
+}
+
+#githubicon {
+  position: absolute;
+  top: 20px;
+  right: 10vw;
+  width: 70px;
+  height: 70px;
+  transition: 1.5s;
+  z-index: 0;
+  background-color: transparent;
+  border-radius: 30px;
+}
+
+#githubicon:hover {
+  transform: translateY(-5px);
+  background-color: azure;
+}
+
+#homeIcon {
+  position: absolute;
+  top: 20px;
+  left: 7vw;
+  width: 70px;
+  height: 70px;
+  transition: 1.5s;
+  z-index: 0;
+  background-color: transparent;
+}
+
+#homeIcon:hover {
+  transform: translateY(-5px);
 }
