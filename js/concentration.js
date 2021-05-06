@@ -58,7 +58,9 @@
       });
 
       if (++matchedCards === 20) {
-        window.modal("You Win!", 1500);
+        window.sleep(500).then(() => {
+          window.modal("Kaiya and Pepper!", 4000);
+        });
         gameOver = true;
       }
     } else {
