@@ -118,6 +118,8 @@
         flipCardInner.id = matchList[i * 8 + j];
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
+        image.draggable = false;
+        image.ondragstart = () => false;
         flipCardBack.appendChild(image);
         flipCard.addEventListener("click", () => {
           if (canFlip && gameStarted && !gameOver) {
