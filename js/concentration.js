@@ -100,6 +100,13 @@
       const row = document.createElement("div");
       document.getElementById("cards").appendChild(row);
       row.classList.add("row");
+      row.draggable = false;
+      row.ondragstart = function () {
+        return false;
+      };
+      row.onmousedown = function () {
+        return false;
+      };
       for (let j = 0; j < 8; j++) {
         const flipCard = document.createElement("div");
         const flipCardInner = document.createElement("div");
@@ -118,8 +125,6 @@
         flipCardInner.id = matchList[i * 8 + j];
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
-        image.draggable = false;
-        image.ondragstart = () => false;
         flipCardBack.appendChild(image);
         flipCard.addEventListener("click", () => {
           if (canFlip && gameStarted && !gameOver) {
