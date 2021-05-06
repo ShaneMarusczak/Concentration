@@ -18,7 +18,7 @@ header {
   text-align: center;
   position: absolute;
   top: 125px;
-  left: 15px;
+  left: 30px;
 }
 
 @media screen and (max-width: 1700px) {
