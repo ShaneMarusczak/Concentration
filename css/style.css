@@ -59,6 +59,10 @@ html {
   display: flex;
 }
 
+image {
+  pointer-events: none;
+}
+
 .flip-card {
   width: 125px;
   height: 150px;
