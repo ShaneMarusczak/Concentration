@@ -126,7 +126,7 @@
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
         flipCardBack.appendChild(image);
-        flipCard.addEventListener("click", () => {
+        flipCardInner.addEventListener("click", () => {
           if (canFlip && gameStarted && !gameOver) {
             if (flipCardInner.classList.contains("flip-card-flip")) {
               flipCardInner.classList.remove("flip-card-flip");
