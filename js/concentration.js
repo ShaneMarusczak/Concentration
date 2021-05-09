@@ -50,9 +50,15 @@
         Array.from(cardsToCheck[1].childNodes)
           .find((elem) => elem.classList.contains("flip-card-back"))
           .firstChild.classList.add("match-rotate");
+        Array.from(cardsToCheck[0].childNodes)
+          .find((elem) => elem.classList.contains("flip-card-front"))
+          .classList.remove("box-shadow");
+        Array.from(cardsToCheck[1].childNodes)
+          .find((elem) => elem.classList.contains("flip-card-front"))
+          .classList.remove("box-shadow");
       });
 
-      window.sleep(400).then(() => {
+      window.sleep(375).then(() => {
         cardsToCheck[0].remove();
         cardsToCheck[1].remove();
       });
