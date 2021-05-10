@@ -95,10 +95,6 @@ image {
   margin: 5px;
 }
 
-.flip-card-inner:hover {
-  cursor: pointer;
-}
-
 .flip-card-inner {
   position: relative;
   width: 100%;
@@ -136,6 +132,14 @@ image {
   transform: rotateY(180deg);
 }
 
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+  transform: scale(1.075);
+}
+
 .cat-image {
   border-radius: 7px;
   width: 125px;
@@ -143,7 +147,7 @@ image {
 }
 
 .match-rotate {
-  transition-duration: 200ms;
+  transition-duration: 325ms;
   transform: rotate(360deg);
 }
 

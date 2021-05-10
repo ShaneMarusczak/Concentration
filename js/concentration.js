@@ -58,7 +58,7 @@
           .classList.remove("box-shadow");
       });
 
-      window.sleep(375).then(() => {
+      window.sleep(425).then(() => {
         cardsToCheck[0].remove();
         cardsToCheck[1].remove();
       });
@@ -72,6 +72,10 @@
     } else {
       cardsToCheck[0].classList.remove("flip-card-flip");
       cardsToCheck[1].classList.remove("flip-card-flip");
+      window.sleep(10).then(() => {
+        cardsToCheck[0].classList.add("grow");
+        cardsToCheck[1].classList.add("grow");
+      });
     }
     canFlip = true;
     flippedCards = 0;
@@ -95,6 +99,12 @@
       if (!gameStarted) {
         window.modal("Start!", 1500);
         gameStarted = true;
+        Array.from(document.querySelectorAll(".flip-card-inner")).forEach(
+          (elem) => {
+            elem.classList.add("grow");
+            elem.classList.add("hover-cursor");
+          }
+        );
       }
     });
 
@@ -136,10 +146,12 @@
           if (canFlip && gameStarted && !gameOver) {
             if (flipCardInner.classList.contains("flip-card-flip")) {
               flipCardInner.classList.remove("flip-card-flip");
+              flipCardInner.classList.add("grow");
               flippedCards--;
             } else {
               if (flippedCards === 0 || flippedCards === 1) {
                 flipCardInner.classList.add("flip-card-flip");
+                flipCardInner.classList.remove("grow");
                 flippedCards++;
                 if (flippedCards === 2) {
                   canFlip = false;
