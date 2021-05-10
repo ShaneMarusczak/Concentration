@@ -58,7 +58,7 @@
           .classList.remove("box-shadow");
       });
 
-      window.sleep(425).then(() => {
+      window.sleep(475).then(() => {
         cardsToCheck[0].remove();
         cardsToCheck[1].remove();
       });
@@ -72,7 +72,7 @@
     } else {
       cardsToCheck[0].classList.remove("flip-card-flip");
       cardsToCheck[1].classList.remove("flip-card-flip");
-      window.sleep(10).then(() => {
+      window.sleep(800).then(() => {
         cardsToCheck[0].classList.add("grow");
         cardsToCheck[1].classList.add("grow");
       });
@@ -94,10 +94,18 @@
     }
   };
 
+  const dealCards = () => {
+    const cards = Array.from(document.querySelectorAll(".flip-card-inner"));
+    const len = cards.length;
+    for (let i = 0; i < len; i++) {
+      setTimeout(() => cards[i].classList.remove("hidden"), i * 55);
+    }
+  };
+
   (() => {
     document.getElementById("startBtn").addEventListener("click", () => {
       if (!gameStarted) {
-        window.modal("Start!", 1500);
+        window.modal("Dealing Cards!", 40 * 55);
         gameStarted = true;
         Array.from(document.querySelectorAll(".flip-card-inner")).forEach(
           (elem) => {
@@ -105,6 +113,18 @@
             elem.classList.add("hover-cursor");
           }
         );
+        document
+          .getElementById("startBtn")
+          .classList.remove("startButtonFlash");
+        document
+          .getElementById("main-header")
+          .classList.remove("header-before-start");
+        document
+          .getElementById("main-header")
+          .classList.add("header-after-start");
+        document.getElementById("menu").classList.add("display-flex");
+
+        dealCards();
       }
     });
 
@@ -137,6 +157,7 @@
         flipCard.appendChild(flipCardInner);
         flipCardInner.appendChild(flipCardFront);
         flipCardInner.appendChild(flipCardBack);
+        flipCardInner.classList.add("hidden");
         row.appendChild(flipCard);
         flipCardInner.id = matchList[i * 8 + j];
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
@@ -164,5 +185,6 @@
       }
     }
     colorSelectHandler();
+    // dealCards();
   })();
 })();
