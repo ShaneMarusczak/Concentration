@@ -9,19 +9,14 @@ body {
   width: 100%;
 }
 
+h1 {
+  margin-bottom: 12px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
 }
-
-/* header {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-} */
 
 .header-before-start {
   text-align: center;
@@ -44,33 +39,6 @@ body {
   justify-content: space-around;
 }
 
-/* @media screen and (max-width: 1700px) {
-  header {
-position:absolute;
-    top: 5px;
-    left: 25%;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    justify-content: space-around;
-  }
-
-  main {
-    margin-top: 60px;
-  }
-
-  select {
-    margin-top: 0px !important;
-  }
-
-  #githubicon {
-    right: auto;
-    left: 12vw;
-  }
-} */
-
 main {
   margin-top: 60px;
   display: flex;
@@ -84,7 +52,7 @@ main {
   border: solid black;
   border-radius: 7px;
   margin: 5px;
-  transition: 500ms;
+  transition: 50ms;
 }
 
 label {
@@ -101,9 +69,12 @@ select {
   background-color: grey;
 }
 
-#menu {
-  margin-top: 10px;
+.menu-before-start {
   margin-bottom: 20px;
+}
+
+.menu-after-start {
+  margin-top: 7px;
 }
 
 html {
@@ -204,7 +175,7 @@ image {
 
 #githubicon {
   position: absolute;
-  top: 10px;
+  top: 8px;
   right: 5vw;
   width: 60px;
   height: 60px;
@@ -221,7 +192,7 @@ image {
 
 #homeIcon {
   position: absolute;
-  top: 10px;
+  top: 8px;
   left: 5vw;
   width: 60px;
   height: 60px;

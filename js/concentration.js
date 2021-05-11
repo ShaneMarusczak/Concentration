@@ -122,6 +122,8 @@
         document
           .getElementById("main-header")
           .classList.add("header-after-start");
+        document.getElementById("menu").classList.remove("menu-before-start");
+        document.getElementById("menu").classList.add("menu-after-start");
         document.getElementById("menu").classList.add("display-flex");
 
         dealCards();
