@@ -184,6 +184,7 @@ image {
   z-index: 0;
   background-color: transparent;
   border-radius: 30px;
+  z-index: 10;
 }
 
 #githubicon:hover {
@@ -200,6 +201,7 @@ image {
   transition: 1.5s;
   z-index: 0;
   background-color: transparent;
+  z-index: 10;
 }
 
 #homeIcon:hover {
