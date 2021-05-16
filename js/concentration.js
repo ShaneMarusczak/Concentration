@@ -42,7 +42,7 @@
   const checkForMatch = () => {
     const cardsToCheck = document.querySelectorAll(".flip-card-flip");
 
-    if (cardsToCheck[0].id === cardsToCheck[1].id) {
+    if (matchList[cardsToCheck[0].id] === matchList[cardsToCheck[1].id]) {
       window.sleep(50).then(() => {
         Array.from(cardsToCheck[0].childNodes)
           .find((elem) => elem.classList.contains("flip-card-back"))
@@ -161,7 +161,7 @@
         flipCardInner.appendChild(flipCardBack);
         flipCardInner.classList.add("hidden");
         row.appendChild(flipCard);
-        flipCardInner.id = matchList[i * 8 + j];
+        flipCardInner.id = i * 8 + j;
         image.src = "images/" + imageStore[matchList[i * 8 + j]];
         image.classList.add("cat-image");
         flipCardBack.appendChild(image);
@@ -187,6 +187,5 @@
       }
     }
     colorSelectHandler();
-    // dealCards();
   })();
 })();
