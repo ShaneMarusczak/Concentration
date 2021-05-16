@@ -181,7 +181,6 @@ image {
   width: 60px;
   height: 60px;
   transition: 1.5s;
-  z-index: 0;
   background-color: transparent;
   border-radius: 30px;
   z-index: 10;
@@ -199,7 +198,6 @@ image {
   width: 60px;
   height: 60px;
   transition: 1.5s;
-  z-index: 0;
   background-color: transparent;
   z-index: 10;
 }
