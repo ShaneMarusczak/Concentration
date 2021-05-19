@@ -5,6 +5,9 @@
   let canFlip = true;
   let gameStarted = false;
   let gameOver = false;
+  let flipsCheckedCount = 0;
+  const bestScore = document.getElementById("bestScore");
+  const bestScoreOnLoad = Number(window.getCookie("concbestScore"));
   const utl = {
     cardCount: 40,
     matches: 20,
@@ -41,6 +44,7 @@
 
   const checkForMatch = () => {
     const cardsToCheck = document.querySelectorAll(".flip-card-flip");
+    flipsCheckedCount++;
 
     if (matchList[cardsToCheck[0].id] === matchList[cardsToCheck[1].id]) {
       window.sleep(50).then(() => {
@@ -64,10 +68,20 @@
       });
 
       if (++matchedCards === 20) {
-        window.sleep(500).then(() => {
-          window.modal("Kaiya and Pepper!", 4000);
-        });
+        let newbestScore =
+          bestScoreOnLoad < 20
+            ? flipsCheckedCount
+            : flipsCheckedCount < bestScoreOnLoad
+            ? flipsCheckedCount
+            : bestScoreOnLoad;
         gameOver = true;
+        window.sleep(700).then(() => {
+          window.modal("Kaiya and Pepper!", 1000);
+          window.sleep(1000).then(() => {
+            window.modal("Best Score: " + newbestScore, 3000);
+          });
+        });
+        window.setCookie("concbestScore", newbestScore, 7);
       }
     } else {
       cardsToCheck[0].classList.remove("flip-card-flip");
@@ -125,6 +139,7 @@
         document.getElementById("menu").classList.remove("menu-before-start");
         document.getElementById("menu").classList.add("menu-after-start");
         document.getElementById("menu").classList.add("display-flex");
+        document.getElementById("bestScoreContainer").remove();
 
         dealCards();
       }
@@ -186,6 +201,8 @@
         });
       }
     }
+    bestScore.textContent =
+      bestScoreOnLoad < 20 ? "0 Pairs Flips" : bestScoreOnLoad + " Pairs Flips";
     colorSelectHandler();
   })();
 })();

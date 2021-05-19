@@ -8,11 +8,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Concentration</title>
-    <script src="js/concentration.min.js" defer></script>
     <script
       type="text/javascript"
       src="https://marusczak.com/BuildingBlocks/js/buildingBlocks.min.js"
-      defer
     ></script>
     <script
       type="text/javascript"
@@ -24,6 +22,7 @@
       type="text/css"
       href="https://marusczak.com/BuildingBlocks/css/modal.min.css"
     />
+    <script src="js/concentration.js" defer></script>
   </head>
   <a
     id="gitHubLink"
@@ -49,10 +48,13 @@
         <option value="blue">Blue</option>
         <option value="orange">Orange</option>
       </select>
+      <div id="bestScoreContainer">
+        <p id="bestScoreLine">Best Score: <span id="bestScore"></span></p>
+      </div>
     </header>
     <main>
       <div id="cards"></div>
-      <p title="8:27 PM">Last Updated: May 15, 2021</p>
+      <p title="8:48 PM">Last Updated: May 18, 2021</p>
     </main>
   </body>
 </html>
