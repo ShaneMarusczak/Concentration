@@ -98,7 +98,7 @@
   const colorSelectHandler = () => {
     const select = document.getElementById("color-select");
     const colorTo = select.options[select.selectedIndex].value;
-    const cards = Array.from(document.querySelectorAll(".flip-card-front"));
+    const cards = document.querySelectorAll(".flip-card-front");
     for (let card of cards) {
       card.classList.remove("grey-pattern");
       card.classList.remove("blue-pattern");
@@ -109,24 +109,17 @@
   };
 
   const dealCards = () => {
-    const cards = Array.from(document.querySelectorAll(".flip-card-inner"));
+    const cards = document.querySelectorAll(".flip-card-inner");
     const len = cards.length;
     for (let i = 0; i < len; i++) {
-      setTimeout(() => cards[i].classList.remove("hidden"), i * 55);
+      setTimeout(() => cards[i].classList.remove("hidden"), i * 57);
     }
   };
 
   (() => {
     document.getElementById("startBtn").addEventListener("click", () => {
       if (!gameStarted) {
-        window.modal("Dealing Cards!", 40 * 55);
         gameStarted = true;
-        Array.from(document.querySelectorAll(".flip-card-inner")).forEach(
-          (elem) => {
-            elem.classList.add("grow");
-            elem.classList.add("hover-cursor");
-          }
-        );
         document
           .getElementById("startBtn")
           .classList.remove("startButtonFlash");
@@ -140,8 +133,14 @@
         document.getElementById("menu").classList.add("menu-after-start");
         document.getElementById("menu").classList.add("display-flex");
         document.getElementById("bestScoreContainer").remove();
-
-        dealCards();
+        window.modal("Dealing Cards!", 40 * 57 + 275);
+        document.querySelectorAll(".flip-card-inner").forEach((elem) => {
+          elem.classList.add("grow");
+          elem.classList.add("hover-cursor");
+        });
+        window.sleep(150).then(() => {
+          dealCards();
+        });
       }
     });
 
@@ -202,7 +201,9 @@
       }
     }
     bestScore.textContent =
-      bestScoreOnLoad < 20 ? "0 Pairs Flips" : bestScoreOnLoad + " Pairs Flips";
+      bestScoreOnLoad < 20
+        ? "0 Pairs Flipped"
+        : bestScoreOnLoad + " Pairs Flipped";
     colorSelectHandler();
   })();
 })();
