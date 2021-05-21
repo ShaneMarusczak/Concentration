@@ -6,6 +6,8 @@
   let gameStarted = false;
   let gameOver = false;
   let flipsCheckedCount = 0;
+  let discoMode = false;
+  let lastColor = "";
   const bestScore = document.getElementById("bestScore");
   const bestScoreOnLoad = Number(window.getCookie("concbestScore"));
   const utl = {
@@ -98,13 +100,45 @@
   const colorSelectHandler = () => {
     const select = document.getElementById("color-select");
     const colorTo = select.options[select.selectedIndex].value;
+
     const cards = document.querySelectorAll(".flip-card-front");
+
+    if (colorTo === "disco") {
+      discoMode = true;
+      disco(cards);
+    } else {
+      discoMode = false;
+      clearCardBackClasses(cards);
+      addCardBackClass(cards, colorTo);
+    }
+  };
+
+  const clearCardBackClasses = (cards) => {
     for (let card of cards) {
       card.classList.remove("grey-pattern");
       card.classList.remove("blue-pattern");
       card.classList.remove("purple-pattern");
       card.classList.remove("orange-pattern");
+    }
+  };
+
+  const addCardBackClass = (cards, colorTo) => {
+    for (let card of cards) {
       card.classList.add(colorTo + "-pattern");
+    }
+  };
+
+  const disco = (cards) => {
+    if (discoMode) {
+      clearCardBackClasses(cards);
+      const colors = ["grey", "blue", "purple", "orange"];
+      let colorTo;
+      do {
+        colorTo = colors[window.randomIntFromInterval(0, 3)];
+      } while (colorTo === lastColor);
+      lastColor = colorTo;
+      addCardBackClass(cards, colorTo);
+      window.sleep(400).then(() => disco(cards));
     }
   };
 
