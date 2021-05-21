@@ -164,8 +164,8 @@ image {
 }
 
 .blue-pattern {
-  background: repeating-conic-gradient(#0000ff 0% 25%, white 0% 50%) 50% / 105px
-    127px;
+  background: repeating-conic-gradient(cadetblue 0% 25%, white 0% 50%) 50% /
+    105px 127px;
 }
 
 .orange-pattern {
