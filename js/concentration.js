@@ -236,7 +236,7 @@
     }
     bestScore.textContent =
       bestScoreOnLoad < 20
-        ? "0 Pairs Flipped"
+        ? "No Best Score"
         : bestScoreOnLoad + " Pairs Flipped";
     colorSelectHandler();
   })();
