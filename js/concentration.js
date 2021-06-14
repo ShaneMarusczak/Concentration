@@ -80,6 +80,7 @@
         window.sleep(700).then(() => {
           window.modal("Kaiya and Pepper!", 1000);
           window.sleep(1000).then(() => {
+            window.sleep(3000).then(() => location.reload());
             window.modal("Best Score: " + newbestScore, 3000);
           });
         });
