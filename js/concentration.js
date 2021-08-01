@@ -144,6 +144,68 @@
   };
 
   const dealCards = () => {
+    let rows = 0;
+    let cols = 0;
+    if (window.matchMedia("(min-width: 801px)").matches) {
+      rows = 5;
+      cols = 8;
+    } else {
+      rows = 10;
+      cols = 4;
+    }
+    for (let i = 0; i < rows; i++) {
+      const row = document.createElement("div");
+      document.getElementById("cards").appendChild(row);
+      row.classList.add("row");
+      row.draggable = false;
+      row.ondragstart = function () {
+        return false;
+      };
+      row.onmousedown = function () {
+        return false;
+      };
+      for (let j = 0; j < cols; j++) {
+        const flipCard = document.createElement("div");
+        const flipCardInner = document.createElement("div");
+        const flipCardFront = document.createElement("div");
+        const flipCardBack = document.createElement("div");
+        const image = document.createElement("img");
+        flipCard.classList.add("flip-card");
+        flipCardInner.classList.add("flip-card-inner");
+        flipCardFront.classList.add("flip-card-front");
+        flipCardFront.classList.add("box-shadow");
+        flipCardBack.classList.add("flip-card-back");
+        flipCard.appendChild(flipCardInner);
+        flipCardInner.appendChild(flipCardFront);
+        flipCardInner.appendChild(flipCardBack);
+        flipCardInner.classList.add("hidden");
+        row.appendChild(flipCard);
+        flipCardInner.id = i * cols + j;
+        image.src = "images/" + imageStore[matchList[i * cols + j]];
+        image.classList.add("cat-image");
+        flipCardBack.appendChild(image);
+        flipCardInner.addEventListener("click", () => {
+          if (canFlip && gameStarted && !gameOver) {
+            if (flipCardInner.classList.contains("flip-card-flip")) {
+              flipCardInner.classList.remove("flip-card-flip");
+              flipCardInner.classList.add("grow");
+              flippedCards--;
+            } else {
+              if (flippedCards === 0 || flippedCards === 1) {
+                flipCardInner.classList.add("flip-card-flip");
+                flipCardInner.classList.remove("grow");
+                flippedCards++;
+                if (flippedCards === 2) {
+                  canFlip = false;
+                  window.sleep(1250).then(checkForMatch);
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+    colorSelectHandler();
     const cards = document.querySelectorAll(".flip-card-inner");
     const len = cards.length;
     for (let i = 0; i < len; i++) {
@@ -183,62 +245,9 @@
       .getElementById("color-select")
       .addEventListener("change", colorSelectHandler);
 
-    for (let i = 0; i < 5; i++) {
-      const row = document.createElement("div");
-      document.getElementById("cards").appendChild(row);
-      row.classList.add("row");
-      row.draggable = false;
-      row.ondragstart = function () {
-        return false;
-      };
-      row.onmousedown = function () {
-        return false;
-      };
-      for (let j = 0; j < 8; j++) {
-        const flipCard = document.createElement("div");
-        const flipCardInner = document.createElement("div");
-        const flipCardFront = document.createElement("div");
-        const flipCardBack = document.createElement("div");
-        const image = document.createElement("img");
-        flipCard.classList.add("flip-card");
-        flipCardInner.classList.add("flip-card-inner");
-        flipCardFront.classList.add("flip-card-front");
-        flipCardFront.classList.add("box-shadow");
-        flipCardBack.classList.add("flip-card-back");
-        flipCard.appendChild(flipCardInner);
-        flipCardInner.appendChild(flipCardFront);
-        flipCardInner.appendChild(flipCardBack);
-        flipCardInner.classList.add("hidden");
-        row.appendChild(flipCard);
-        flipCardInner.id = i * 8 + j;
-        image.src = "images/" + imageStore[matchList[i * 8 + j]];
-        image.classList.add("cat-image");
-        flipCardBack.appendChild(image);
-        flipCardInner.addEventListener("click", () => {
-          if (canFlip && gameStarted && !gameOver) {
-            if (flipCardInner.classList.contains("flip-card-flip")) {
-              flipCardInner.classList.remove("flip-card-flip");
-              flipCardInner.classList.add("grow");
-              flippedCards--;
-            } else {
-              if (flippedCards === 0 || flippedCards === 1) {
-                flipCardInner.classList.add("flip-card-flip");
-                flipCardInner.classList.remove("grow");
-                flippedCards++;
-                if (flippedCards === 2) {
-                  canFlip = false;
-                  window.sleep(1250).then(checkForMatch);
-                }
-              }
-            }
-          }
-        });
-      }
-    }
     bestScore.textContent =
       bestScoreOnLoad < 20
         ? "No Best Score"
         : bestScoreOnLoad + " Pairs Flipped";
-    colorSelectHandler();
   })();
 })();

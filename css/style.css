@@ -175,8 +175,8 @@ image {
 
 #githubicon {
   position: absolute;
-  top: 8px;
-  right: 5vw;
+  top: 5vh;
+  right: 6vw;
   width: 60px;
   height: 60px;
   transition: 1.5s;
@@ -192,8 +192,8 @@ image {
 
 #homeIcon {
   position: absolute;
-  top: 8px;
-  left: 5vw;
+  top: 5vh;
+  left: 6vw;
   width: 60px;
   height: 60px;
   transition: 1.5s;
