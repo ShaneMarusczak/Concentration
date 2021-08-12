@@ -210,6 +210,8 @@
     const len = cards.length;
     for (let i = 0; i < len; i++) {
       setTimeout(() => cards[i].classList.remove("hidden"), i * 57);
+      cards[i].classList.add("grow");
+      cards[i].classList.add("hover-cursor");
     }
   };
 
@@ -231,10 +233,6 @@
         document.getElementById("menu").classList.add("display-flex");
         document.getElementById("bestScoreContainer").remove();
         window.modal("Dealing Cards!", 40 * 57 + 275);
-        document.querySelectorAll(".flip-card-inner").forEach((elem) => {
-          elem.classList.add("grow");
-          elem.classList.add("hover-cursor");
-        });
         window.sleep(150).then(() => {
           dealCards();
         });
