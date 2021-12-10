@@ -9,7 +9,7 @@
   let discoMode = false;
   let lastColor = "";
   const bestScore = document.getElementById("bestScore");
-  const bestScoreOnLoad = Number(window.getCookie("concbestScore"));
+  const bestScoreOnLoad = Number(getCookie("concbestScore"));
   const utl = {
     cardCount: 40,
     matches: 20,
@@ -49,7 +49,7 @@
     flipsCheckedCount++;
 
     if (matchList[cardsToCheck[0].id] === matchList[cardsToCheck[1].id]) {
-      window.sleep(50).then(() => {
+      sleep(50).then(() => {
         Array.from(cardsToCheck[0].childNodes)
           .find((elem) => elem.classList.contains("flip-card-back"))
           .firstChild.classList.add("match-rotate");
@@ -64,7 +64,7 @@
           .classList.remove("box-shadow");
       });
 
-      window.sleep(475).then(() => {
+      sleep(475).then(() => {
         cardsToCheck[0].remove();
         cardsToCheck[1].remove();
       });
@@ -77,19 +77,19 @@
             ? flipsCheckedCount
             : bestScoreOnLoad;
         gameOver = true;
-        window.sleep(700).then(() => {
-          window.modal("Kaiya and Pepper!", 1000);
-          window.sleep(1000).then(() => {
-            window.sleep(3000).then(() => location.reload());
-            window.modal("Best Score: " + newbestScore, 3000);
+        sleep(700).then(() => {
+          modal("Kaiya and Pepper!", 1000);
+          sleep(1000).then(() => {
+            sleep(3000).then(() => location.reload());
+            modal("Best Score: " + newbestScore, 3000);
           });
         });
-        window.setCookie("concbestScore", newbestScore, 7);
+        setCookie("concbestScore", newbestScore, 7);
       }
     } else {
       cardsToCheck[0].classList.remove("flip-card-flip");
       cardsToCheck[1].classList.remove("flip-card-flip");
-      window.sleep(800).then(() => {
+      sleep(800).then(() => {
         cardsToCheck[0].classList.add("grow");
         cardsToCheck[1].classList.add("grow");
       });
@@ -129,23 +129,69 @@
     }
   };
 
+  function modal(message, duration) {
+    const modalBox = document.createElement("div");
+    modalBox.id = "modal-box";
+    const innerModalBox = document.createElement("div");
+    innerModalBox.id = "inner-modal-box";
+    const modalMessage = document.createElement("span");
+    modalMessage.id = "modal-message";
+    innerModalBox.appendChild(modalMessage);
+    modalBox.appendChild(innerModalBox);
+    modalMessage.innerText = message;
+    document.getElementsByTagName("html")[0].appendChild(modalBox);
+    sleep(duration).then(() => modalBox.remove());
+  }
+
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   const disco = (cards) => {
     if (discoMode) {
       clearCardBackClasses(cards);
       const colors = ["grey", "blue", "purple", "orange"];
       let colorTo;
       do {
-        colorTo = colors[window.randomIntFromInterval(0, 3)];
+        colorTo = colors[randomIntFromInterval(0, 3)];
       } while (colorTo === lastColor);
       lastColor = colorTo;
       addCardBackClass(cards, colorTo);
-      window.sleep(400).then(() => disco(cards));
+      sleep(400).then(() => disco(cards));
     }
   };
 
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie =
+        cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax";
+  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   const dealCards = () => {
-    let rows = 0;
-    let cols = 0;
+    let rows;
+    let cols;
     if (window.matchMedia("(min-width: 801px)").matches) {
       rows = 5;
       cols = 8;
@@ -197,7 +243,7 @@
                 flippedCards++;
                 if (flippedCards === 2) {
                   canFlip = false;
-                  window.sleep(1250).then(checkForMatch);
+                  sleep(1250).then(checkForMatch);
                 }
               }
             }
@@ -232,8 +278,8 @@
         document.getElementById("menu").classList.add("menu-after-start");
         document.getElementById("menu").classList.add("display-flex");
         document.getElementById("bestScoreContainer").remove();
-        window.modal("Dealing Cards!", 40 * 57 + 275);
-        window.sleep(150).then(() => {
+        modal("Dealing Cards!", 40 * 57 + 275);
+        sleep(150).then(() => {
           dealCards();
         });
       }
