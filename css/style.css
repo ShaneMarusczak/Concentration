@@ -209,6 +209,21 @@ image {
   cursor: pointer;
 }
 
+/* Keyboard focus styling for accessibility */
+.flip-card-inner:focus {
+  outline: 3px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+.flip-card-inner:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.flip-card-inner:focus-visible {
+  outline: 3px solid #4a90d9;
+  outline-offset: 2px;
+}
+
 .hidden {
   display: none;
 }

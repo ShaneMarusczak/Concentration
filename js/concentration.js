@@ -1,5 +1,28 @@
 "use strict";
 (() => {
+  // Timing constants (in milliseconds)
+  const TIMING = {
+    FLIP_CHECK_DELAY: 1250,       // Delay before checking if cards match
+    MISMATCH_GROW_DELAY: 800,     // Delay before re-adding grow effect on mismatch
+    MATCH_ROTATE_DELAY: 50,       // Delay before adding match rotation animation
+    MATCH_REMOVE_DELAY: 475,      // Delay before removing matched cards from DOM
+    WIN_MODAL_DELAY: 700,         // Delay before showing win modal
+    WIN_MODAL_DURATION: 1000,     // Duration of first win modal
+    FINAL_MODAL_DURATION: 3000,   // Duration of final score modal and reload delay
+    DISCO_INTERVAL: 400,          // Interval between disco color changes
+    CARD_DEAL_INTERVAL: 57,       // Interval between each card appearing
+    DEAL_START_DELAY: 150,        // Delay before starting to deal cards
+    DEAL_MODAL_EXTRA: 275,        // Extra time for dealing modal beyond card animations
+  };
+
+  // Game constants
+  const GAME = {
+    CARD_COUNT: 40,
+    MATCHES: 20,
+    MIN_VALID_SCORE: 20,
+    COOKIE_EXPIRY_DAYS: 7,
+  };
+
   let flippedCards = 0;
   let matchedCards = 0;
   let canFlip = true;
@@ -8,16 +31,10 @@
   let flipsCheckedCount = 0;
   let discoMode = false;
   let lastColor = "";
-  const bestScore = document.getElementById("bestScore");
-  const bestScoreOnLoad = Number(getCookie("concbestScore"));
-  const utl = {
-    cardCount: 40,
-    matches: 20,
-  };
 
   const createList = () => {
     const rv = [];
-    for (let i = 1; i < 21; i++) {
+    for (let i = 1; i <= GAME.MATCHES; i++) {
       rv[i] = "cat" + i + ".png";
     }
     return rv;
@@ -35,7 +52,7 @@
 
   const assignment = () => {
     const arr1 = [];
-    for (let i = 0; i < utl.matches; i++) {
+    for (let i = 0; i < GAME.MATCHES; i++) {
       arr1.push(i + 1);
       arr1.push(i + 1);
     }
@@ -49,7 +66,7 @@
     flipsCheckedCount++;
 
     if (matchList[cardsToCheck[0].id] === matchList[cardsToCheck[1].id]) {
-      sleep(50).then(() => {
+      sleep(TIMING.MATCH_ROTATE_DELAY).then(() => {
         Array.from(cardsToCheck[0].childNodes)
           .find((elem) => elem.classList.contains("flip-card-back"))
           .firstChild.classList.add("match-rotate");
@@ -64,32 +81,32 @@
           .classList.remove("box-shadow");
       });
 
-      sleep(475).then(() => {
+      sleep(TIMING.MATCH_REMOVE_DELAY).then(() => {
         cardsToCheck[0].remove();
         cardsToCheck[1].remove();
       });
 
-      if (++matchedCards === 20) {
+      if (++matchedCards === GAME.MATCHES) {
         let newbestScore =
-          bestScoreOnLoad < 20
+          bestScoreOnLoad < GAME.MIN_VALID_SCORE
             ? flipsCheckedCount
             : flipsCheckedCount < bestScoreOnLoad
             ? flipsCheckedCount
             : bestScoreOnLoad;
         gameOver = true;
-        sleep(700).then(() => {
-          modal("Kaiya and Pepper!", 1000);
-          sleep(1000).then(() => {
-            sleep(3000).then(() => location.reload());
-            modal("Best Score: " + newbestScore, 3000);
+        sleep(TIMING.WIN_MODAL_DELAY).then(() => {
+          modal("Kaiya and Pepper!", TIMING.WIN_MODAL_DURATION);
+          sleep(TIMING.WIN_MODAL_DURATION).then(() => {
+            sleep(TIMING.FINAL_MODAL_DURATION).then(() => location.reload());
+            modal("Best Score: " + newbestScore, TIMING.FINAL_MODAL_DURATION);
           });
         });
-        setCookie("concbestScore", newbestScore, 7);
+        setCookie("concbestScore", newbestScore, GAME.COOKIE_EXPIRY_DAYS);
       }
     } else {
       cardsToCheck[0].classList.remove("flip-card-flip");
       cardsToCheck[1].classList.remove("flip-card-flip");
-      sleep(800).then(() => {
+      sleep(TIMING.MISMATCH_GROW_DELAY).then(() => {
         cardsToCheck[0].classList.add("grow");
         cardsToCheck[1].classList.add("grow");
       });
@@ -161,7 +178,7 @@
       } while (colorTo === lastColor);
       lastColor = colorTo;
       addCardBackClass(cards, colorTo);
-      sleep(400).then(() => disco(cards));
+      sleep(TIMING.DISCO_INTERVAL).then(() => disco(cards));
     }
   };
 
@@ -230,7 +247,8 @@
         image.src = "images/" + imageStore[matchList[i * cols + j]];
         image.classList.add("cat-image");
         flipCardBack.appendChild(image);
-        flipCardInner.addEventListener("click", () => {
+        // Card flip handler - shared by click and keyboard events
+        const handleCardFlip = () => {
           if (canFlip && gameStarted && !gameOver) {
             if (flipCardInner.classList.contains("flip-card-flip")) {
               flipCardInner.classList.remove("flip-card-flip");
@@ -243,10 +261,24 @@
                 flippedCards++;
                 if (flippedCards === 2) {
                   canFlip = false;
-                  sleep(1250).then(checkForMatch);
+                  sleep(TIMING.FLIP_CHECK_DELAY).then(checkForMatch);
                 }
               }
             }
+          }
+        };
+
+        // Click handler
+        flipCardInner.addEventListener("click", handleCardFlip);
+
+        // Keyboard support - Enter and Space to flip card
+        flipCardInner.setAttribute("tabindex", "0");
+        flipCardInner.setAttribute("role", "button");
+        flipCardInner.setAttribute("aria-label", "Card " + (i * cols + j + 1));
+        flipCardInner.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleCardFlip();
           }
         });
       }
@@ -255,7 +287,7 @@
     const cards = document.querySelectorAll(".flip-card-inner");
     const len = cards.length;
     for (let i = 0; i < len; i++) {
-      setTimeout(() => cards[i].classList.remove("hidden"), i * 57);
+      setTimeout(() => cards[i].classList.remove("hidden"), i * TIMING.CARD_DEAL_INTERVAL);
       cards[i].classList.add("grow");
       cards[i].classList.add("hover-cursor");
     }
@@ -278,8 +310,8 @@
         document.getElementById("menu").classList.add("menu-after-start");
         document.getElementById("menu").classList.add("display-flex");
         document.getElementById("bestScoreContainer").remove();
-        modal("Dealing Cards!", 40 * 57 + 275);
-        sleep(150).then(() => {
+        modal("Dealing Cards!", GAME.CARD_COUNT * TIMING.CARD_DEAL_INTERVAL + TIMING.DEAL_MODAL_EXTRA);
+        sleep(TIMING.DEAL_START_DELAY).then(() => {
           dealCards();
         });
       }
@@ -290,7 +322,7 @@
       .addEventListener("change", colorSelectHandler);
 
     bestScore.textContent =
-      bestScoreOnLoad < 20
+      bestScoreOnLoad < GAME.MIN_VALID_SCORE
         ? "No Best Score"
         : bestScoreOnLoad + " Pairs Flipped";
   })();
